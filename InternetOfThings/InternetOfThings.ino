@@ -1,6 +1,9 @@
+#include "thingProperties.h"
+
 const int sensor_pin = A0;
 int pulse_signal = 0;
-float BPM = 0.0;
+int counter = 0;
+//float BPM = 0.0;
 
 int upper_threshold = 860;
 int lower_threshold = 800;
@@ -13,6 +16,18 @@ float pulse_period = 0;
 
 void setup() {
   Serial.begin(9600);
+
+  delay(1500);
+  initProperties();
+  //Connect to cloud and get info/errors
+  ArduinoCloud.begin(ArduinoIoTPreferredConnection);
+  setDebugMessageLevel(2);
+  ArduinoCloud.printDebugInfo();
+  //Wait for cloud connection
+  while (ArduinoCloud.connected() != 1) {
+  ArduinoCloud.update();
+  delay(500);
+
 }
 
 void loop() {
@@ -41,4 +56,10 @@ void loop() {
   Serial.println(BPM);
 
   delay(50);
+
+  counter++;
+  if (counter > 200){
+  ArduinoCloud.update();
+  Serial.println(BPM);
+  counter = 0;
 }
