@@ -25,9 +25,9 @@ void setup() {
   ArduinoCloud.printDebugInfo();
   //Wait for cloud connection
   while (ArduinoCloud.connected() != 1) {
-  ArduinoCloud.update();
-  delay(500);
-
+    ArduinoCloud.update();
+    delay(500);
+  }
 }
 
 void loop() {
@@ -62,4 +62,5 @@ void loop() {
   ArduinoCloud.update();
   Serial.println(BPM);
   counter = 0;
+  }
 }
